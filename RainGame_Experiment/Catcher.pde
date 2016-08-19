@@ -20,10 +20,9 @@ class Catcher
     
     if (afstand < (radius1/2) + (radius2/2))
     {
-      println("intersection");
+      //println("intersection");
       return true;
     } else { 
-      println("p");
       return false;
     }
   } 

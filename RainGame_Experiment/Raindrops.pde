@@ -9,22 +9,35 @@ class Raindrops
   { 
      location = new PVector(x_,y_);
      radius = radius_;
-     velocity = new PVector(random(-3,3),random(-3,3));
+     velocity = new PVector(random(-3,3),random(2,4));
   } 
   
   void move() 
   {
-    location.add(velocity);
+    location.y = location.y + velocity.y;
   }
   
   void displayRain() 
   { 
-    fill(255);
-    stroke(1);
-    strokeWeight(2);
-    smooth();
-    ellipse(location.x,location.y,radius,radius);
+    for (int i = 0; i < radius; i++)
+    {
+        fill(0);
+        noStroke();
+        smooth();
+        ellipse(location.x,location.y+i*1.3,i,i);
+    }
   } 
+  
+  boolean OutofScreen()
+  { 
+      if (location.y + radius/2 > height) 
+      { 
+          //println("onderaan scherm");
+          return true; 
+      } else  { 
+          return false; 
+      }
+  }
   
   void Tijdelijkbounce() 
   { 

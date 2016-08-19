@@ -1,10 +1,12 @@
 
 // Classes 
-Catcher player; 
-Raindrops vijand; 
+Catcher player;  
 Timer timer; 
+Raindrops[] raining = new Raindrops[200];
 
+int totalrain; 
 float radiusPlayer; 
+boolean kleurplayer; 
 
 void setup() 
 { 
@@ -12,12 +14,11 @@ void setup()
    smooth(); 
    noCursor();
    
-   
    radiusPlayer = 40;
+   totalrain = 0; 
    
    // Constructor from the classes 
    player = new Catcher(radiusPlayer);
-   vijand = new Raindrops(random(10,width-10), random(10,height-10),radiusPlayer/4);
    timer = new Timer(2000);
 } 
 
@@ -29,18 +30,42 @@ void draw()
   } else { 
     background(timer.kleur1,timer.kleur2,timer.kleur3,10);
   }
+  
+  player.setLocation(mouseX,mouseY);
 
-  // Change the color of the player when hitting a enemy
-  if (player.intersection(player.location.x,vijand.location.x,player.location.y,vijand.location.y,player.radius,vijand.radius) == true)
+  if (totalrain < raining.length)
   { 
-    player.display2();
-    timer.startTimer();
+    raining[totalrain] = new Raindrops(random(10, width-10), random(radiusPlayer/6,10),radiusPlayer/4);
+    totalrain += 1; 
   } else { 
-    player.display1();
+    totalrain = 0; 
   } 
 
-  player.setLocation(mouseX,mouseY);
-  vijand.Tijdelijkbounce();
-  vijand.move();
-  vijand.displayRain();
+
+  for (int i = 0; i < totalrain; i++)
+  { 
+    raining[i].move();
+    raining[i].OutofScreen();
+    raining[i].Tijdelijkbounce();
+    raining[i].displayRain();
+
+    if (player.intersection(player.location.x,raining[i].location.x,player.location.y,raining[i].location.y,player.radius,raining[i].radius) == true)
+    { 
+        //player.display2();
+        timer.startTimer();
+        kleurplayer = true; 
+    } else { 
+        //player.display1();
+        kleurplayer = false; 
+    } 
+  } 
+  
+  if (kleurplayer == true )
+  { 
+    player.display2();
+  } else { 
+    player.display1();
+  }
+  
+  
 } 
