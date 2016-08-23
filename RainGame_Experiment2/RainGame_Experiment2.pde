@@ -65,6 +65,8 @@ void draw()
     if (player.intersection(player.location.x,raining[i].location.x,player.location.y,raining[i].location.y,player.radius,raining[i].radius) == true)
     { 
            player.display2();
+           raining[i].location.y = -1000; 
+           raining[i].velocity.y = 0; 
     }  else { 
            getal ++; 
     }
